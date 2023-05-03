@@ -1,8 +1,8 @@
 package com.agripure.agripurebackend.service;
 
 import com.agripure.agripurebackend.entities.Event;
-import com.agripure.agripurebackend.entities.User;
 import com.agripure.agripurebackend.repository.IEventRepository;
+import com.agripure.agripurebackend.security.entity.User;
 import com.agripure.agripurebackend.service.impl.EventServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

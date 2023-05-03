@@ -1,5 +1,6 @@
 package com.agripure.agripurebackend.entities;
 
+import com.agripure.agripurebackend.security.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -20,7 +21,7 @@ public class Event {
     private Long id;
     @Column(name = "date", nullable = false)
     private LocalDate date;
-    @Column(name = "description", nullable = false, length = 200)
+    @Column(name = "description", nullable = false, length = 500)
     private String description;
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

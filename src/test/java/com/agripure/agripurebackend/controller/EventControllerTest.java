@@ -1,17 +1,13 @@
 package com.agripure.agripurebackend.controller;
 
 import com.agripure.agripurebackend.entities.Event;
-import com.agripure.agripurebackend.entities.User;
+import com.agripure.agripurebackend.security.entity.User;
 import com.agripure.agripurebackend.service.impl.EventServiceImpl;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 

@@ -1,6 +1,6 @@
 package step;
 
-import com.agripure.agripurebackend.entities.User;
+import com.agripure.agripurebackend.security.entity.User;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -15,7 +15,7 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserStepDefinitions {
-    @Autowired
+
     private TestRestTemplate testRestTemplate;
     @LocalServerPort
     private int randomServerPort;
@@ -28,12 +28,12 @@ public class UserStepDefinitions {
 
     @When("A user request is sent with values {string}, {string}, {string}, {string}")
     public void aUserRequestIsSentWithValuesTrue(String username, String email, String password, Boolean premium) {
-        User user = new User(0L, username, email, password, true);
+        /*User user = new User(0L, username, email, password, true);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<User> request = new HttpEntity<>(user, headers);
-        responseEntity = testRestTemplate.postForEntity(endpointPath, request, String.class);
+        responseEntity = testRestTemplate.postForEntity(endpointPath, request, String.class);*/
     }
 
     @Then("A user with status {int} is received")

@@ -17,7 +17,7 @@ import java.util.Optional;
 @CrossOrigin
 @RestController
 @RequestMapping("/api/plants")
-@Api(tags = "Plant", value = "Web Service RESTful - Plants")
+@Api(tags = "Plants", value = "Web Service RESTful - Plants")
 public class PlantController {
 
     private final IPlantService plantService;
@@ -42,12 +42,29 @@ public class PlantController {
         }
     }
 
+    @GetMapping(value = "/username?{username}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "List Plants", notes = "Method for list all plants")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Plants found"),
+            @ApiResponse(code = 404, message = "Plants not found"),
+            @ApiResponse(code = 501, message = "Internal Server Error")
+    })
+    public ResponseEntity<List<Plant>> findPlantsByUsername(@PathVariable("username") String username){
+        try{
+            List<Plant> plants = plantService.listPlantsByUsername(username);
+            return new ResponseEntity<>(plants, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping(value="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Find plants by Id", notes = "Method for list one plants by Id")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Plant found"),
             @ApiResponse(code = 404, message = "Plant not found"),
-            @ApiResponse(code = 501, message = "Internal Server Error")
+            @ApiResponse(code = 501, message = "Internal Server Error"),
+            @ApiResponse(code = 404, message = "Unauthorized")
     })
     public ResponseEntity<Plant> findPlantsById(@PathVariable("id") Long id){
         try{
@@ -60,7 +77,7 @@ public class PlantController {
         }
     }
 
-    @GetMapping(value = "/searchByName/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/plant-name?{name}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Found plant by Name", notes = "Method for list one plant by Id")
     public ResponseEntity<Plant> findPlantsByName(@PathVariable("name") String name){
         try{
@@ -79,7 +96,8 @@ public class PlantController {
     @ApiResponses({
             @ApiResponse(code = 201, message = "Plant created"),
             @ApiResponse(code = 404, message = "Plant not created"),
-            @ApiResponse(code = 501, message = "Internal Server Error")
+            @ApiResponse(code = 501, message = "Internal Server Error"),
+            @ApiResponse(code = 404, message = "Unauthorized")
     })
     public ResponseEntity<Plant> insertPlant(@Valid @RequestBody Plant plant){
         try{
@@ -95,7 +113,8 @@ public class PlantController {
     @ApiResponses({
             @ApiResponse(code = 201, message = "Data for Plant updated"),
             @ApiResponse(code = 404, message = "Plant not found"),
-            @ApiResponse(code = 501, message = "Internal Server Error")
+            @ApiResponse(code = 501, message = "Internal Server Error"),
+            @ApiResponse(code = 404, message = "Unauthorized")
     })
     public ResponseEntity<Plant> updatePlant(@PathVariable("id") Long id, @Valid @RequestBody Plant plant){
         try{
@@ -117,7 +136,8 @@ public class PlantController {
     @ApiResponses({
             @ApiResponse(code = 201, message = "Plant deleted"),
             @ApiResponse(code = 404, message = "Plant not found"),
-            @ApiResponse(code = 501, message = "Internal Server Error")
+            @ApiResponse(code = 501, message = "Internal Server Error"),
+            @ApiResponse(code = 404, message = "Unauthorized")
     })
     public ResponseEntity<Plant> deletePlant(@PathVariable("id") Long id){
         try{

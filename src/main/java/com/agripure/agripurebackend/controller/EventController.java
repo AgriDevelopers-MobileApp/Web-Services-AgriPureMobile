@@ -1,9 +1,9 @@
 package com.agripure.agripurebackend.controller;
 
 import com.agripure.agripurebackend.entities.Event;
-import com.agripure.agripurebackend.entities.User;
+import com.agripure.agripurebackend.security.entity.User;
+import com.agripure.agripurebackend.security.service.UserService;
 import com.agripure.agripurebackend.service.IEventService;
-import com.agripure.agripurebackend.service.IUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -25,9 +25,9 @@ import java.util.Optional;
 @Api(tags = "Events", value = "Web Service RESTful - Events")
 public class EventController {
     private final IEventService eventService;
-    private final IUserService userService;
+    private final UserService userService;
 
-    public EventController(IEventService eventService, IUserService userService) {
+    public EventController(IEventService eventService, UserService userService) {
         this.eventService = eventService;
         this.userService = userService;
     }
@@ -53,23 +53,23 @@ public class EventController {
         }
     }
 
-    @PostMapping(value = "/{userId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/{username}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Add Events", notes = "Method for add new events")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Events created"),
             @ApiResponse(code = 404, message = "Plants not created"),
             @ApiResponse(code = 501, message = "Internal Server Error")
     })
-    public ResponseEntity<Event> insertEvent(@PathVariable("userId") Long userId, @Valid @RequestBody Event event){
+    public ResponseEntity<Event> insertEvent(@PathVariable("username") String username, @Valid @RequestBody Event event){
         try{
-            Optional<User> user = userService.getById(userId);
+            Optional<User> user = userService.findByUserName(username);
             if (user.isPresent()) {
                 event.setUser(user.get());
                 Event newEvent = eventService.save(event);
                 return ResponseEntity.status(HttpStatus.CREATED).body(newEvent);
             }
             else
-                return new ResponseEntity<>(HttpStatus.FAILED_DEPENDENCY);
+               return new ResponseEntity<>(HttpStatus.FAILED_DEPENDENCY);
         }catch (Exception ex){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
