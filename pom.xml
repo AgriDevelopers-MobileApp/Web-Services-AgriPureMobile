@@ -12,6 +12,10 @@
                     <target>17</target>
                 </configuration>
             </plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
         </plugins>
     </build>
     <parent>
@@ -26,7 +30,7 @@
 	<name>AgriPureBackend</name>
 	<description>AgriPureBackend</description>
 	<properties>
-		<java.version>17</java.version>
+		<java.version>11</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
