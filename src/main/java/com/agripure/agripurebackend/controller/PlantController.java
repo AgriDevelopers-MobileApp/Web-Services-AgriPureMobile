@@ -59,7 +59,7 @@ public class PlantController {
     }
 
     @GetMapping(value="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Find plants by Id", notes = "Method for list one plants by Id")
+    @ApiOperation(value = "Find plants by Id", notes = "Method for find one plants by Id")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Plant found"),
             @ApiResponse(code = 404, message = "Plant not found"),

@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -82,4 +83,25 @@ public class AuthController {
         JwtDTO jwtDTO = new JwtDTO(jwt, userDetails.getUsername(), userDetails.getAuthorities());
         return new ResponseEntity(jwtDTO, HttpStatus.OK);
     }
+
+    @PostMapping("/change-password")
+    @ApiOperation(value = "change user password", notes = "Method for change user password")
+    public ResponseEntity<?> changePassword(@Valid @RequestBody String username,@Valid @RequestBody String oldPassword,@Valid @RequestBody String newPassword, BindingResult bindingResult){
+        if(bindingResult.hasErrors())
+            return new ResponseEntity<>(new Message("Invalid Credentials"), HttpStatus.BAD_REQUEST);
+        if(!userService.existsByUserName(username))
+            return new ResponseEntity<>(new Message("User doesn't exists"), HttpStatus.BAD_REQUEST);
+
+        Optional<User> user = userService.findByUserName(username);
+
+        if(!passwordEncoder.matches(user.get().getPassword(), oldPassword)){
+            return new ResponseEntity<>(new Message("The current password is incorrect"), HttpStatus.BAD_REQUEST);
+        }
+
+        String newPasswordEncode = passwordEncoder.encode(newPassword);
+        user.get().setPassword(newPasswordEncode);
+        userService.save(user.get());
+        return new ResponseEntity<>(new Message("Password updated"), HttpStatus.OK);
+    }
+
 }
