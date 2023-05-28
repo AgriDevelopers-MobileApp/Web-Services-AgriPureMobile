@@ -60,7 +60,7 @@ public class QueryController {
         }
     }
 
-    @GetMapping(value = "/username?{username}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/username/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Found query by UserName", notes = "Method for list all query by username")
     public ResponseEntity<List<Query>> findQuerysByUserName(@PathVariable("username") String username){
         try{

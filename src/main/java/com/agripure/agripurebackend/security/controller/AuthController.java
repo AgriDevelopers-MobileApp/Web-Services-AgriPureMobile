@@ -1,5 +1,6 @@
 package com.agripure.agripurebackend.security.controller;
 
+import com.agripure.agripurebackend.security.dto.ChangePassword;
 import com.agripure.agripurebackend.security.dto.JwtDTO;
 import com.agripure.agripurebackend.security.dto.LoginUser;
 import com.agripure.agripurebackend.security.dto.NewUser;
@@ -86,19 +87,19 @@ public class AuthController {
 
     @PostMapping("/change-password")
     @ApiOperation(value = "change user password", notes = "Method for change user password")
-    public ResponseEntity<?> changePassword(@Valid @RequestBody String username,@Valid @RequestBody String oldPassword,@Valid @RequestBody String newPassword, BindingResult bindingResult){
+    public ResponseEntity<?> changePassword(@Valid @RequestBody ChangePassword userToChange, BindingResult bindingResult){
         if(bindingResult.hasErrors())
             return new ResponseEntity<>(new Message("Invalid Credentials"), HttpStatus.BAD_REQUEST);
-        if(!userService.existsByUserName(username))
+        if(!userService.existsByUserName(userToChange.getUsername()))
             return new ResponseEntity<>(new Message("User doesn't exists"), HttpStatus.BAD_REQUEST);
 
-        Optional<User> user = userService.findByUserName(username);
+        Optional<User> user = userService.findByUserName(userToChange.getUsername());
 
-        if(!passwordEncoder.matches(user.get().getPassword(), oldPassword)){
+        if (!passwordEncoder.matches(userToChange.getOldPassword(), user.get().getPassword())) {
             return new ResponseEntity<>(new Message("The current password is incorrect"), HttpStatus.BAD_REQUEST);
         }
 
-        String newPasswordEncode = passwordEncoder.encode(newPassword);
+        String newPasswordEncode = passwordEncoder.encode(userToChange.getNewPassword());
         user.get().setPassword(newPasswordEncode);
         userService.save(user.get());
         return new ResponseEntity<>(new Message("Password updated"), HttpStatus.OK);

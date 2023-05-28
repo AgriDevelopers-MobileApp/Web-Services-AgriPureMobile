@@ -28,7 +28,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "/username?{username}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/username/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Find User by username", notes = "Method for find one User by username")
     @ApiResponses({
             @ApiResponse(code = 201, message = "User found"),
@@ -47,7 +47,7 @@ public class UserController {
         }
     }
 
-    @PutMapping(value = "/username?{username}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/username/{username}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Update data for User", notes = "Method for update data for user")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Data for user updated"),

@@ -42,7 +42,7 @@ public class PlantController {
         }
     }
 
-    @GetMapping(value = "/username?{username}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/username/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "List Plants", notes = "Method for list all plants")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Plants found"),
@@ -77,7 +77,7 @@ public class PlantController {
         }
     }
 
-    @GetMapping(value = "/plant-name?{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/plant-name/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Found plant by Name", notes = "Method for list one plant by Id")
     public ResponseEntity<Plant> findPlantsByName(@PathVariable("name") String name){
         try{

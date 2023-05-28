@@ -64,7 +64,7 @@ public class SpecialistController {
         }
     }
 
-    @GetMapping(value = "/name?{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/name/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Found specialist by Name", notes = "Method for list one specialist by Id")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Specialist founded"),
