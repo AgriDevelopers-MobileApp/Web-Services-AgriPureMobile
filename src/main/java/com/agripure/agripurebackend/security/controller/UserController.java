@@ -61,7 +61,7 @@ public class UserController {
             if(!userOld.isPresent())
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             else{
-                User userToSave = new User(user.getName(), user.getUserName(), user.getEmail(),userOld.get().getPassword());
+                User userToSave = new User(user.getName(), userOld.get().getUserName(), user.getEmail(),userOld.get().getPassword());
                 userToSave.setId(userOld.get().getId());
                 userToSave.setRoles(userOld.get().getRoles());
                 userService.save(userToSave);

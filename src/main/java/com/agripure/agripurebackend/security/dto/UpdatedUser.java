@@ -11,8 +11,5 @@ public class UpdatedUser {
     @NotNull
     private String name;
     @NotNull
-    private String userName;
-    @NotNull
     private String email;
-    private Set<String> roles = new HashSet<>();
 }
