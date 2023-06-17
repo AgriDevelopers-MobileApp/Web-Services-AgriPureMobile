@@ -36,8 +36,20 @@ public class JwtProvider {
 
     public boolean validateToken(String token){
         try{
-            Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
+            Jws<Claims> claimsJws = Jwts.parser()
+                    .setSigningKey(secret)
+                    .parseClaimsJws(token);
+
+            Claims claims = claimsJws.getBody();
+
+            Date expirationDate = claims.getExpiration();
+            Date currentDate = new Date();
+
+            if (expirationDate.before(currentDate)){
+                return false;
+            }
             return true;
+
         }catch (MalformedJwtException e){
             logger.error("Malformed Token");
         }catch (UnsupportedJwtException e){

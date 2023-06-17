@@ -33,6 +33,18 @@ public class Specialist {
     @Column(name = "whatsapp_number", nullable = true, length = 30)
     private String whatsapp_number;
 
+    @Column(name = "description", nullable = false, length = 500)
+    private String description;
+
+    @Column(name = "info_favorite_plants", nullable = false, length = 500)
+    private String info_favorite_plants;
+
+    @Column(name = "info_certifications", nullable = false, length = 500)
+    private String info_certifications;
+
+    @Column(name = "info_experience", nullable = false, length = 500)
+    private String info_experience;
+
     @JsonIgnore
     @OneToMany(mappedBy = "specialist")
     private List<Query> users;

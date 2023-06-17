@@ -82,7 +82,7 @@ public class AuthController {
         String jwt = jwtProvider.generateToken(authentication);
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         JwtDTO jwtDTO = new JwtDTO(jwt, userDetails.getUsername(), userDetails.getAuthorities());
-        return new ResponseEntity(jwtDTO, HttpStatus.OK);
+        return new ResponseEntity<>(jwtDTO, HttpStatus.OK);
     }
 
     @PostMapping("/change-password")
@@ -105,4 +105,11 @@ public class AuthController {
         return new ResponseEntity<>(new Message("Password updated"), HttpStatus.OK);
     }
 
+    /*@PostMapping("/validate-token")
+    @ApiOperation(value = "renew token", notes = "Method for renew token")
+    public ResponseEntity<Boolean> renewToken(@RequestBody String expiredToken){
+        boolean isTokenValid = jwtProvider.validateToken(expiredToken);
+
+        return new ResponseEntity<>(isTokenValid, HttpStatus.OK);
+    }*/
 }
