@@ -14,10 +14,13 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
+
     public Optional<User> findByUserName(String userName){
         return userRepository.findByUserName(userName);
     }
-
+    public Optional<User> findUserById(Long id){
+        return userRepository.findById(id);
+    }
     public boolean existsByUserName(String userName){
         return userRepository.existsByUserName(userName);
     }
@@ -26,6 +29,7 @@ public class UserService {
         return userRepository.existsByEmail(email);
     }
 
+    @Transactional
     public void save(User user){
         userRepository.save(user);
     }

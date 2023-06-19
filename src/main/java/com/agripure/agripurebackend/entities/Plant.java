@@ -46,9 +46,6 @@ public class Plant implements Serializable {
     private Integer intervale_fumig;
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "users_plants",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "plant_id"))
+    @ManyToMany(mappedBy = "plants")
     private List<User> users;
 }

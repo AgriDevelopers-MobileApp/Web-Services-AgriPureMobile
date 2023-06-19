@@ -20,7 +20,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     @NotNull
     private String name;
     @NotNull
@@ -37,8 +37,11 @@ public class User {
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"),
     inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
-    @JsonIgnore
-    @ManyToMany(mappedBy = "users")
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "users_plants",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "plant_id"))
     private List<Plant> plants;
 
     @JsonIgnore

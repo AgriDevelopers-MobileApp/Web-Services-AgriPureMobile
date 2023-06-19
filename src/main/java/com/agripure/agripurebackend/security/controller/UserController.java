@@ -1,9 +1,11 @@
 package com.agripure.agripurebackend.security.controller;
 
-import com.agripure.agripurebackend.security.dto.NewUser;
+import com.agripure.agripurebackend.entities.Plant;
 import com.agripure.agripurebackend.security.dto.UpdatedUser;
 import com.agripure.agripurebackend.security.entity.User;
 import com.agripure.agripurebackend.security.service.UserService;
+import com.agripure.agripurebackend.service.IPlantService;
+import com.agripure.agripurebackend.util.Message;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -22,10 +24,11 @@ import java.util.Optional;
 @Api(tags = "Users", value = "Web Service RESTful - Users")
 public class UserController {
     private final UserService userService;
+    private final IPlantService plantService;
 
-
-    public UserController(UserService userService) {
+    public UserController(UserService userService, IPlantService plantService) {
         this.userService = userService;
+        this.plantService = plantService;
     }
 
     @GetMapping(value = "/username/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -72,5 +75,59 @@ public class UserController {
         }
     }
 
+    @PostMapping(value = "/{userId}/assign/{plantId}")
+    @ApiOperation(value = "Insert Plant to User", notes = "Method for insert plant to User")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Plant assigned to User"),
+            @ApiResponse(code = 404, message = "Plant not assigned"),
+            @ApiResponse(code = 501, message = "Internal Server Error"),
+            @ApiResponse(code = 404, message = "Unauthorized")
+    })
+    public ResponseEntity<?> assignPlantToUser(@PathVariable("plantId") Long plantId, @PathVariable("userId") Long userId) {
+        try {
+            Optional<Plant> plant = plantService.getById(plantId);
+            Optional<User> user = userService.findUserById(userId);
+            if (plant.isPresent() && user.isPresent()){
+                if(user.get().getPlants().contains(plant.get())){
+                    return new ResponseEntity<>(new Message("Plant already assigned to User"), HttpStatus.OK);
+                }
+                user.get().getPlants().add(plant.get());
+                userService.save(user.get());
+                return new ResponseEntity<>(new Message("Plant assigned to User"), HttpStatus.OK);
+            }else {
+                return new ResponseEntity<>(new Message("Plant not assigned"), HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(new Message("Fail in the method"), HttpStatus.BAD_REQUEST);
+        }
+    }
 
+    @PostMapping(value = "/{userId}/delete/{plantId}")
+    @ApiOperation(value = "Delete Plant to User", notes = "Method for delete plant to User")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Plant deleted to User"),
+            @ApiResponse(code = 404, message = "Plant not deleted"),
+            @ApiResponse(code = 501, message = "Internal Server Error"),
+            @ApiResponse(code = 404, message = "Unauthorized")
+    })
+    public ResponseEntity<?> deletePlantToUser(@PathVariable("plantId") Long plantId, @PathVariable("userId") Long userId) {
+        try {
+            Optional<Plant> plant = plantService.getById(plantId);
+            Optional<User> user = userService.findUserById(userId);
+            if (plant.isPresent() && user.isPresent()){
+                if(!user.get().getPlants().contains(plant.get())){
+                    return new ResponseEntity<>(new Message("Plant doesn't assigned to User"), HttpStatus.OK);
+                }
+                user.get().getPlants().remove(plant.get());
+                userService.save(user.get());
+                return new ResponseEntity<>(new Message("Plant deleted to User"), HttpStatus.OK);
+            }else {
+                return new ResponseEntity<>(new Message("Plant not deleted"), HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(new Message("Fail in the method"), HttpStatus.BAD_REQUEST);
+        }
+    }
 }

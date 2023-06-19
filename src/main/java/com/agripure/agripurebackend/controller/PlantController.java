@@ -1,7 +1,10 @@
 package com.agripure.agripurebackend.controller;
 
 import com.agripure.agripurebackend.entities.Plant;
+import com.agripure.agripurebackend.security.entity.User;
+import com.agripure.agripurebackend.security.service.UserService;
 import com.agripure.agripurebackend.service.IPlantService;
+import com.agripure.agripurebackend.util.Message;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -21,9 +24,11 @@ import java.util.Optional;
 public class PlantController {
 
     private final IPlantService plantService;
+    private final UserService userService;
 
-    public PlantController(IPlantService plantService) {
+    public PlantController(IPlantService plantService, UserService userService) {
         this.plantService = plantService;
+        this.userService = userService;
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
