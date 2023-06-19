@@ -103,7 +103,7 @@ public class UserController {
         }
     }
 
-    @PostMapping(value = "/{userId}/delete/{plantId}")
+    @DeleteMapping(value = "/{userId}/delete/{plantId}")
     @ApiOperation(value = "Delete Plant to User", notes = "Method for delete plant to User")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Plant deleted to User"),
