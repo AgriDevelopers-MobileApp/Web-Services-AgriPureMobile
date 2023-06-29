@@ -6,5 +6,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface IEventService extends CrudService<Event> {
-    List<Event> findAllByDate(LocalDate date) throws Exception;
+
+    List<Event> findAllByDate(String date) throws Exception;
+    List<Event> findAllByUsername(String username) throws Exception;
 }

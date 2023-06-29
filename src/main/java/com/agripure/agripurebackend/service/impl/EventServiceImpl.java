@@ -6,8 +6,6 @@ import com.agripure.agripurebackend.service.IEventService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,8 +31,13 @@ public class EventServiceImpl implements IEventService {
     }
 
     @Override
-    public List<Event> findAllByDate(LocalDate date) throws Exception {
+    public List<Event> findAllByDate(String date) throws Exception {
         return eventRepository.findAllByDate(date);
+    }
+
+    @Override
+    public List<Event> findAllByUsername(String username) throws Exception {
+        return eventRepository.findEventsByUsername(username);
     }
 
     @Override

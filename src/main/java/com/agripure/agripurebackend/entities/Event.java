@@ -20,10 +20,7 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "date", nullable = false)
-    private LocalDate date;
-    @Column(name = "description", nullable = false, length = 500)
-    private String description;
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private User user;
+    private String date;
+    @Column(name = "title", nullable = false, length = 500)
+    private String title;
 }

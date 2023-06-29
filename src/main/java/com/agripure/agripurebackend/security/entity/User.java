@@ -1,5 +1,6 @@
 package com.agripure.agripurebackend.security.entity;
 
+import com.agripure.agripurebackend.entities.Event;
 import com.agripure.agripurebackend.entities.Plant;
 import com.agripure.agripurebackend.entities.Query;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -47,6 +48,10 @@ public class User {
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Query> specialists;
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Event> events;
 
     public User(@NotNull String name,@NotNull String userName,@NotNull String email,@NotNull String password) {
         this.name = name;
